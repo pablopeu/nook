@@ -101,17 +101,25 @@ function renderCurrent(data) {
 }
 
 function renderHours(data) {
-  hourlyBandEl.innerHTML = "";
+  const hours = data.hours.slice(0, 12);
+  const values = hours.map((hour) => Number(hour.precipitation_chance ?? 0));
 
-  data.hours.slice(0, 12).forEach((hour) => {
-    const card = document.createElement("article");
-    card.className = "hour-card";
-    card.innerHTML = `
-      <img src="${hour.icon_url}" alt="${hour.condition_text}">
-      <div class="hour-label">${hour.time_label}</div>
-    `;
-    hourlyBandEl.appendChild(card);
-  });
+  hourlyBandEl.innerHTML = `
+    <section class="hourly-chart-panel">
+      <div class="hourly-chart-title">Pronóstico de precipitaciones</div>
+      <div class="hourly-chart-canvas" id="hourly-chart-canvas"></div>
+      <div class="hourly-values-row" id="hourly-values-row"></div>
+      <div class="hourly-hours-row" id="hourly-hours-row"></div>
+    </section>
+  `;
+
+  renderPrecipitationChart(
+    hourlyBandEl.querySelector("#hourly-chart-canvas"),
+    hourlyBandEl.querySelector("#hourly-values-row"),
+    hourlyBandEl.querySelector("#hourly-hours-row"),
+    hours,
+    values,
+  );
 }
 
 function renderDays(data) {
@@ -141,12 +149,121 @@ function revealScreen() {
   screenEl.hidden = false;
 }
 
+function buildSmoothPath(points) {
+  if (points.length === 0) return "";
+  if (points.length === 1) return `M ${points[0].x} ${points[0].y}`;
+
+  let path = `M ${points[0].x} ${points[0].y}`;
+
+  for (let index = 0; index < points.length - 1; index += 1) {
+    const current = points[index];
+    const next = points[index + 1];
+    const previous = points[index - 1] ?? current;
+    const afterNext = points[index + 2] ?? next;
+
+    const control1X = current.x + (next.x - previous.x) / 6;
+    const control1Y = current.y + (next.y - previous.y) / 6;
+    const control2X = next.x - (afterNext.x - current.x) / 6;
+    const control2Y = next.y - (afterNext.y - current.y) / 6;
+
+    path += ` C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${next.x} ${next.y}`;
+  }
+
+  return path;
+}
+
+function renderPrecipitationChart(container, valuesRow, hoursRow, hours, values) {
+  if (!container || !valuesRow || !hoursRow) return;
+
+  const width = container.clientWidth || 760;
+  const height = container.clientHeight || 92;
+  const leftPad = 28;
+  const rightPad = 12;
+  const plotTop = 10;
+  const plotBottom = 10;
+  const chartWidth = width - leftPad - rightPad;
+  const chartHeight = height - plotTop - plotBottom;
+  const safeValues = values.length > 0 ? values : Array.from({ length: 12 }, () => 0);
+
+  const points = safeValues.map((value, index) => {
+    const ratio = safeValues.length === 1 ? 0.5 : index / (safeValues.length - 1);
+    const x = leftPad + chartWidth * ratio;
+    const normalized = Math.max(0, Math.min(100, value)) / 100;
+    const y = plotTop + chartHeight * (1 - normalized);
+    return { x, y, value };
+  });
+
+  const rowOffset = valuesRow.getBoundingClientRect().left - container.getBoundingClientRect().left;
+  const labelInset = 20;
+  const labelTrackWidth = Math.max(0, chartWidth - labelInset * 2);
+  const labelPoints = points.map((point, index) => {
+    const ratio = safeValues.length === 1 ? 0.5 : index / (safeValues.length - 1);
+    const x = leftPad + labelInset + labelTrackWidth * ratio - rowOffset;
+    return {
+      x,
+      value: point.value,
+      time: hours[index]?.time_label ?? "",
+    };
+  });
+
+  const horizontalGrid = [0, 0.25, 0.5, 0.75, 1]
+    .map((step) => {
+      const y = plotTop + chartHeight * (1 - step);
+      return `<line x1="${leftPad}" y1="${y}" x2="${width - rightPad}" y2="${y}" class="chart-grid-line" />`;
+    })
+    .join("");
+
+  const yAxisLabels = [100, 75, 50, 25, 0]
+    .map((value, index) => {
+      const step = index / 4;
+      const y = plotTop + chartHeight * step + 3;
+      return `<text x="${leftPad - 6}" y="${y}" class="chart-axis-label">${value}</text>`;
+    })
+    .join("");
+
+  const verticalGrid = points
+    .map(
+      (point) =>
+        `<line x1="${point.x}" y1="${plotTop}" x2="${point.x}" y2="${height - plotBottom}" class="chart-grid-line chart-grid-line--vertical" />`,
+    )
+    .join("");
+
+  const markers = points
+    .map(
+      (point) =>
+        `<circle cx="${point.x}" cy="${point.y}" r="2.6" class="chart-point-marker" />`,
+    )
+    .join("");
+
+  container.innerHTML = `
+    <svg class="hourly-chart-svg" viewBox="0 0 ${width} ${height}" aria-label="Curva de precipitaciones próximas 12 horas" role="img">
+      ${horizontalGrid}
+      ${verticalGrid}
+      ${yAxisLabels}
+      <path d="${buildSmoothPath(points)}" class="chart-line" />
+      ${markers}
+    </svg>
+  `;
+
+  valuesRow.innerHTML = labelPoints
+    .map(
+      (point) => `<div class="hourly-value-label" style="left:${point.x}px">${point.value}%</div>`,
+    )
+    .join("");
+
+  hoursRow.innerHTML = labelPoints
+    .map(
+      (point) => `<div class="hour-label" style="left:${point.x}px">${point.time}</div>`,
+    )
+    .join("");
+}
+
 loadData()
   .then((data) => {
+    revealScreen();
     renderCurrent(data);
     renderHours(data);
     renderDays(data);
-    revealScreen();
   })
   .catch((error) => {
     statusEl.querySelector(".status-title").textContent = "No se pudo cargar el mockup";

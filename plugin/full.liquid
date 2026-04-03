@@ -1,6 +1,6 @@
 <style>
   .nook-full {
-    width: 800px;
+    width: 780px;
     height: 600px;
     border: 3px solid #000;
     box-sizing: border-box;
@@ -16,7 +16,7 @@
   }
 
   .nook-full__top {
-    height: 39.6%;
+    height: calc(39.6% - 50px);
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
     border-bottom: 3px solid #000;
@@ -147,35 +147,108 @@
   }
 
   .nook-full__hours {
-    height: 22.6%;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    height: calc(22.6% + 70px);
     border-bottom: 3px solid #000;
   }
 
-  .nook-hour {
+  .nook-hourly-chart {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 20px minmax(0, 1fr) 22px 24px;
+  }
+
+  .nook-hourly-chart__title {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6%;
-    padding: 3% 2.2% 2%;
-  }
-
-  .nook-hour img {
-    width: 92%;
-    height: 66%;
-    object-fit: contain;
-  }
-
-  .nook-hour__label {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 18px;
     line-height: 1;
     font-weight: 700;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 0;
+  }
+
+  .nook-hourly-chart__canvas {
+    position: relative;
+    min-height: 0;
+    padding: 0 15px;
+  }
+
+  .nook-hourly-chart__svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .nook-hourly-chart__grid-line {
+    stroke: #000;
+    stroke-width: 0.6;
+    opacity: 0.24;
+    shape-rendering: crispEdges;
+  }
+
+  .nook-hourly-chart__grid-line--vertical {
+    opacity: 0.16;
+  }
+
+  .nook-hourly-chart__line {
+    fill: none;
+    stroke: #000;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .nook-hourly-chart__point {
+    fill: #000;
+  }
+
+  .nook-hourly-chart__axis-label {
+    fill: #000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-anchor: end;
+  }
+
+  .nook-hourly-chart__values {
+    position: relative;
+    height: 22px;
+    padding: 0 15px 0 25px;
+  }
+
+  .nook-hourly-chart__value {
+    position: absolute;
+    top: 0;
+    color: #000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .nook-hourly-chart__hours {
+    position: relative;
+    height: 24px;
+    padding: 0 15px 2px 25px;
+  }
+
+  .nook-hourly-chart__hour-label {
+    position: absolute;
+    top: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 700;
+    transform: translateX(-50%);
+    white-space: nowrap;
   }
 
   .nook-full__days {
-    height: 37.8%;
+    height: calc(37.8% - 20px);
     display: grid;
     grid-template-columns: repeat(7, 1fr);
   }
@@ -185,7 +258,7 @@
     grid-template-rows: auto auto 1fr auto;
     justify-items: center;
     align-items: center;
-    padding: 3.2% 4.5% 1.6%;
+    padding: calc(3.2% + 10px) 4.5% calc(1.6% + 10px);
   }
 
   .nook-day__temps {
@@ -211,8 +284,8 @@
   }
 
   .nook-day img {
-    width: 92%;
-    max-height: 80%;
+    width: 110.4%;
+    max-height: 96%;
     object-fit: contain;
     align-self: center;
     margin-top: -7%;
@@ -230,7 +303,7 @@
   }
 
   .nook-error {
-    width: 800px;
+    width: 780px;
     height: 600px;
     border: 3px solid #000;
     box-sizing: border-box;
@@ -262,6 +335,7 @@
 </style>
 
 {% if ok %}
+  {% assign precip_chart_id = "precip-chart-" | append_random %}
   <div class="nook-full">
     <section class="nook-full__top">
       <div class="nook-full__cell nook-temp">
@@ -293,12 +367,17 @@
     </section>
 
     <section class="nook-full__hours">
-      {% for hour in hours limit: 12 %}
-        <div class="nook-hour">
-          <img src="{{ hour.icon_url }}" alt="{{ hour.condition_text | escape }}">
-          <div class="nook-hour__label">{{ hour.time_label }}</div>
-        </div>
-      {% endfor %}
+      <div
+        class="nook-hourly-chart"
+        id="{{ precip_chart_id }}"
+        data-values="{% for hour in hours limit: 12 %}{{ hour.precipitation_chance | default: 0 }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+        data-times="{% for hour in hours limit: 12 %}{{ hour.time_label }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+      >
+        <div class="nook-hourly-chart__title">Pronóstico de precipitaciones</div>
+        <div class="nook-hourly-chart__canvas"></div>
+        <div class="nook-hourly-chart__values"></div>
+        <div class="nook-hourly-chart__hours"></div>
+      </div>
     </section>
 
     <section class="nook-full__days">
@@ -315,6 +394,118 @@
       {% endfor %}
     </section>
   </div>
+  <script>
+    (function () {
+      const container = document.getElementById("{{ precip_chart_id }}");
+      if (!container) return;
+
+      const canvas = container.querySelector(".nook-hourly-chart__canvas");
+      const valuesRow = container.querySelector(".nook-hourly-chart__values");
+      const hoursRow = container.querySelector(".nook-hourly-chart__hours");
+      if (!canvas || !valuesRow || !hoursRow) return;
+
+      const values = (container.dataset.values || "")
+        .split(",")
+        .map((value) => Number(value.trim()))
+        .filter((value) => !Number.isNaN(value));
+      const times = (container.dataset.times || "").split("|");
+
+      const width = canvas.clientWidth || 760;
+      const height = canvas.clientHeight || 92;
+      const leftPad = 28;
+      const rightPad = 12;
+      const plotTop = 10;
+      const plotBottom = 10;
+      const chartWidth = width - leftPad - rightPad;
+      const chartHeight = height - plotTop - plotBottom;
+      const safeValues = values.length > 0 ? values : Array.from({ length: 12 }, () => 0);
+
+      const points = safeValues.map((value, index) => {
+        const ratio = safeValues.length === 1 ? 0.5 : index / (safeValues.length - 1);
+        const x = leftPad + chartWidth * ratio;
+        const normalized = Math.max(0, Math.min(100, value)) / 100;
+        const y = plotTop + chartHeight * (1 - normalized);
+        return { x, y, value };
+      });
+
+      const rowOffset = valuesRow.getBoundingClientRect().left - canvas.getBoundingClientRect().left;
+      const labelInset = 20;
+      const labelTrackWidth = Math.max(0, chartWidth - labelInset * 2);
+      const labelPoints = points.map((point, index) => {
+        const ratio = safeValues.length === 1 ? 0.5 : index / (safeValues.length - 1);
+        const x = leftPad + labelInset + labelTrackWidth * ratio - rowOffset;
+        return {
+          x,
+          value: point.value,
+          time: times[index] || "",
+        };
+      });
+
+      function buildSmoothPath(series) {
+        if (series.length === 0) return "";
+        if (series.length === 1) return `M ${series[0].x} ${series[0].y}`;
+
+        let path = `M ${series[0].x} ${series[0].y}`;
+
+        for (let index = 0; index < series.length - 1; index += 1) {
+          const current = series[index];
+          const next = series[index + 1];
+          const previous = series[index - 1] || current;
+          const afterNext = series[index + 2] || next;
+
+          const control1X = current.x + (next.x - previous.x) / 6;
+          const control1Y = current.y + (next.y - previous.y) / 6;
+          const control2X = next.x - (afterNext.x - current.x) / 6;
+          const control2Y = next.y - (afterNext.y - current.y) / 6;
+
+          path += ` C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${next.x} ${next.y}`;
+        }
+
+        return path;
+      }
+
+      const horizontalGrid = [0, 0.25, 0.5, 0.75, 1]
+        .map((step) => {
+          const y = plotTop + chartHeight * (1 - step);
+          return `<line x1="${leftPad}" y1="${y}" x2="${width - rightPad}" y2="${y}" class="nook-hourly-chart__grid-line" />`;
+        })
+        .join("");
+
+      const yAxisLabels = [100, 75, 50, 25, 0]
+        .map((value, index) => {
+          const step = index / 4;
+          const y = plotTop + chartHeight * step + 3;
+          return `<text x="${leftPad - 6}" y="${y}" class="nook-hourly-chart__axis-label">${value}</text>`;
+        })
+        .join("");
+
+      const verticalGrid = points
+        .map((point) => `<line x1="${point.x}" y1="${plotTop}" x2="${point.x}" y2="${height - plotBottom}" class="nook-hourly-chart__grid-line nook-hourly-chart__grid-line--vertical" />`)
+        .join("");
+
+      const markers = points
+        .map((point) => `<circle cx="${point.x}" cy="${point.y}" r="2.6" class="nook-hourly-chart__point" />`)
+        .join("");
+
+      canvas.innerHTML = `
+        <svg class="nook-hourly-chart__svg" viewBox="0 0 ${width} ${height}" aria-label="Curva de precipitaciones próximas 12 horas" role="img">
+          ${horizontalGrid}
+          ${verticalGrid}
+          ${yAxisLabels}
+          <path d="${buildSmoothPath(points)}" class="nook-hourly-chart__line"></path>
+          ${markers}
+        </svg>
+      `;
+
+      valuesRow.innerHTML = labelPoints
+        .map((point) => `<div class="nook-hourly-chart__value" style="left:${point.x}px">${point.value}%</div>`)
+        .join("");
+
+      hoursRow.innerHTML = labelPoints
+        .map((point) => `<div class="nook-hourly-chart__hour-label" style="left:${point.x}px">${point.time}</div>`)
+        .join("");
+    })();
+  </script>
 {% else %}
   <div class="nook-error">
     <div class="nook-error__title">Sin datos del tiempo</div>

@@ -27,7 +27,7 @@ body {
 }
 
 .frame {
-  width: 800px;
+  width: 780px;
   height: 600px;
   background: var(--paper);
   border: var(--line);
@@ -62,7 +62,7 @@ body {
 }
 
 .top-band {
-  height: 39.6%;
+  height: calc(39.6% - 50px);
   display: grid;
   grid-template-columns: 1fr 1fr 2fr;
   border-bottom: var(--line);
@@ -198,35 +198,106 @@ body {
 }
 
 .hourly-band {
-  height: 22.6%;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  height: calc(22.6% + 70px);
   border-bottom: var(--line);
 }
 
-.hour-card {
+.hourly-chart-panel {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 20px minmax(0, 1fr) 22px 24px;
+}
+
+.hourly-chart-title {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6%;
-  padding: 3% 2.2% 2%;
-}
-
-.hour-card img {
-  width: 92%;
-  height: 66%;
-  object-fit: contain;
-}
-
-.hour-label {
   font-size: 18px;
   line-height: 1;
   font-weight: 700;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 0;
+}
+
+.hourly-chart-canvas {
+  position: relative;
+  min-height: 0;
+  padding: 0 15px;
+}
+
+.hourly-chart-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chart-grid-line {
+  stroke: #000;
+  stroke-width: 0.6;
+  opacity: 0.24;
+  shape-rendering: crispEdges;
+}
+
+.chart-grid-line--vertical {
+  opacity: 0.16;
+}
+
+.chart-line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-point-marker {
+  fill: #000;
+}
+
+.chart-axis-label {
+  fill: #000;
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-anchor: end;
+}
+
+.hourly-values-row {
+  position: relative;
+  height: 22px;
+  padding: 0 15px 0 25px;
+}
+
+.hourly-value-label {
+  position: absolute;
+  top: 0;
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 700;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.hourly-hours-row {
+  position: relative;
+  height: 24px;
+  padding: 0 15px 2px 25px;
+}
+
+.hour-label {
+  position: absolute;
+  top: 0;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .daily-band {
-  height: 37.8%;
+  height: calc(37.8% - 20px);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 }
@@ -236,7 +307,7 @@ body {
   grid-template-rows: auto auto 1fr auto;
   justify-items: center;
   align-items: center;
-  padding: 3.2% 4.5% 1.6%;
+  padding: calc(3.2% + 10px) 4.5% calc(1.6% + 10px);
 }
 
 .day-minmax {
@@ -266,8 +337,8 @@ body {
 }
 
 .day-card img {
-  width: 92%;
-  max-height: 80%;
+  width: 110.4%;
+  max-height: 96%;
   object-fit: contain;
   align-self: center;
   margin-top: -7%;
@@ -287,7 +358,7 @@ body {
   }
 
   .frame {
-    width: 800px;
+    width: 780px;
     height: 600px;
   }
 }
