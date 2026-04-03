@@ -6,9 +6,10 @@ const TRMNL_ICON_PREFIX = 'https://trmnl.com/images/plugins/weather/';
 const CACHE_TTL_SECONDS = 600;
 const FORECAST_DAYS = 7;
 const HOURLY_WINDOW_SIZE = 12;
+const HERO_WINDOW_SIZE = 4;
 const METEOBLUE_FORECAST_URL = 'https://my.meteoblue.com/packages/basic-1h_basic-day_current';
 const METEOBLUE_SEARCH_URL = 'https://www.meteoblue.com/en/server/search/query3';
-const CACHE_SCHEMA_VERSION = 'meteoblue-v3';
+const CACHE_SCHEMA_VERSION = 'meteoblue-v5';
 
 function load_local_env(string $path): void
 {
@@ -660,6 +661,53 @@ function predominant_hour_icon(array $rows): array
     ];
 }
 
+function adjust_hero_icon(array $hero, array $rows): array
+{
+    if ($rows === []) {
+        return $hero;
+    }
+
+    $maxPrecipitation = max(array_column($rows, 'precipitation_chance'));
+    $group = (string) ($hero['icon_group'] ?? 'cloudy');
+
+    if (in_array($group, ['fog', 'haze', 'snow', 'mix', 'thunder_snow'], true)) {
+        return $hero;
+    }
+
+    if ($maxPrecipitation >= 75) {
+        $group = 'thunder_rain';
+    } elseif ($maxPrecipitation >= 55) {
+        $group = 'rain';
+    } elseif ($maxPrecipitation >= 40) {
+        $group = 'sprinkle';
+    } elseif (in_array($group, ['rain', 'sprinkle', 'thunder_rain'], true)) {
+        $group = 'cloudy';
+    }
+
+    $isDay = true;
+    foreach ($rows as $row) {
+        if (isset($row['is_day'])) {
+            $isDay = (bool) $row['is_day'];
+            break;
+        }
+    }
+
+    $text = match ($group) {
+        'thunder_rain' => 'Tormentas',
+        'rain' => 'Lluvias',
+        'sprinkle' => 'Lloviznas',
+        'partly_cloudy' => 'Parcial nublado',
+        default => 'Nublado',
+    };
+
+    return array_merge($hero, [
+        'icon_group' => $group,
+        'icon_url' => icon_filename(icon_name_for_group($group, $isDay)),
+        'severity' => severity_for_group($group),
+        'condition_text_es' => $text,
+    ]);
+}
+
 function build_hour_window(array $hourRows, string $currentTime): array
 {
     $start = next_full_hour(parse_local_datetime($currentTime));
@@ -773,7 +821,8 @@ function normalize_weather(array $source, array $request, array $location): arra
 
     $todayRows = rows_for_date($hourRows, substr($currentTime, 0, 10));
     $hours = build_hour_window($hourRows, $currentTime);
-    $hero = predominant_hour_icon($hours);
+    $heroHours = array_slice($hours, 0, HERO_WINDOW_SIZE);
+    $hero = adjust_hero_icon(predominant_hour_icon($heroHours), $heroHours);
     $days = build_day_rows($hourRows, $currentTime);
 
     $currentIcon = icon_payload_from_meteoblue(
@@ -820,8 +869,8 @@ function normalize_weather(array $source, array $request, array $location): arra
             'icon_url' => (string) ($hero['icon_url'] ?? icon_filename('wi-cloudy')),
             'condition_text' => (string) ($hero['condition_text'] ?? 'Cloudy'),
             'condition_text_es' => (string) ($hero['condition_text_es'] ?? 'Nublado'),
-            'window_start' => $hours[0]['time'] ?? null,
-            'window_end' => $hours[count($hours) - 1]['time'] ?? null,
+            'window_start' => $heroHours[0]['time'] ?? null,
+            'window_end' => $heroHours[count($heroHours) - 1]['time'] ?? null,
         ],
         'hours' => $hours,
         'days' => $days,
