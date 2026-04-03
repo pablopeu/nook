@@ -1,0 +1,261 @@
+<style>
+  .nook-half-v {
+    width: 400px;
+    height: 480px;
+    border: 3px solid #000;
+    box-sizing: border-box;
+    background: #fff;
+    color: #000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  .nook-half-v * {
+    box-sizing: border-box;
+  }
+
+  .nook-half-v__summary {
+    height: 52%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 3px solid #000;
+  }
+
+  .nook-half-v__summary > div + div {
+    border-left: 3px solid #000;
+  }
+
+  .nook-half-v__temp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 12px 10px;
+  }
+
+  .nook-half-v__title,
+  .nook-half-v__hero-text,
+  .nook-half-v__metric-label,
+  .nook-half-v__hour-label,
+  .nook-half-v__day-label {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  .nook-half-v__title {
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 400;
+  }
+
+  .nook-half-v__value {
+    font-size: 78px;
+    line-height: 0.8;
+    font-weight: 800;
+  }
+
+  .nook-half-v__range {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .nook-half-v__hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 10px 8px;
+  }
+
+  .nook-half-v__hero img {
+    width: 120px;
+    height: 92px;
+    object-fit: contain;
+  }
+
+  .nook-half-v__hero-text {
+    font-size: 18px;
+    line-height: 1.05;
+    text-align: center;
+  }
+
+  .nook-half-v__metrics {
+    height: 18%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 3px solid #000;
+  }
+
+  .nook-half-v__metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 6px 4px;
+    text-align: center;
+  }
+
+  .nook-half-v__metric + .nook-half-v__metric {
+    border-left: 3px solid #000;
+  }
+
+  .nook-half-v__metric-label {
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 400;
+  }
+
+  .nook-half-v__metric-value {
+    font-size: 30px;
+    line-height: 0.9;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .nook-half-v__suffix {
+    font-size: 0.42em;
+  }
+
+  .nook-half-v__hours {
+    height: 14%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 3px solid #000;
+  }
+
+  .nook-half-v__hour {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 2px;
+  }
+
+  .nook-half-v__hour img {
+    width: 74%;
+    height: 58%;
+    object-fit: contain;
+  }
+
+  .nook-half-v__hour-label {
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .nook-half-v__days {
+    height: 16%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .nook-half-v__day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 4px 2px;
+  }
+
+  .nook-half-v__day-stats {
+    font-size: 14px;
+    line-height: 0.95;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .nook-half-v__day-precip {
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .nook-half-v__day img {
+    width: 62%;
+    height: 42%;
+    object-fit: contain;
+  }
+
+  .nook-half-v__day-label {
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .nook-half-v__error {
+    width: 400px;
+    height: 480px;
+    border: 3px solid #000;
+    box-sizing: border-box;
+    background: #fff;
+    color: #000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+  }
+</style>
+
+{% if ok %}
+  <div class="nook-half-v">
+    <section class="nook-half-v__summary">
+      <div class="nook-half-v__temp">
+        <div class="nook-half-v__title">Temperatura</div>
+        <div class="nook-half-v__value">{{ current.temperature }}°</div>
+        <div class="nook-half-v__range">
+          <div>{{ current.min }}°</div>
+          <div>{{ current.max }}°</div>
+        </div>
+      </div>
+      <div class="nook-half-v__hero">
+        <img src="{{ hero.icon_url }}" alt="{{ hero.condition_text | escape }}">
+        <div class="nook-half-v__hero-text">{{ hero.condition_text_es | default: hero.condition_text }}</div>
+      </div>
+    </section>
+    <section class="nook-half-v__metrics">
+      <div class="nook-half-v__metric">
+        <div class="nook-half-v__metric-label">Sensación</div>
+        <div class="nook-half-v__metric-value">{{ current.feels_like }}°</div>
+      </div>
+      <div class="nook-half-v__metric">
+        <div class="nook-half-v__metric-label">Humedad</div>
+        <div class="nook-half-v__metric-value">{{ current.humidity }}<span class="nook-half-v__suffix">%</span></div>
+      </div>
+      <div class="nook-half-v__metric">
+        <div class="nook-half-v__metric-label">Presión</div>
+        <div class="nook-half-v__metric-value">{{ current.pressure_hpa }}<span class="nook-half-v__suffix">hPa</span></div>
+      </div>
+    </section>
+    <section class="nook-half-v__hours">
+      {% for hour in hours limit: 4 %}
+        <div class="nook-half-v__hour">
+          <img src="{{ hour.icon_url }}" alt="{{ hour.condition_text | escape }}">
+          <div class="nook-half-v__hour-label">{{ hour.time_label }}</div>
+        </div>
+      {% endfor %}
+    </section>
+    <section class="nook-half-v__days">
+      {% for day in days limit: 3 %}
+        <div class="nook-half-v__day">
+          <div class="nook-half-v__day-stats">{{ day.min }}° / {{ day.max }}°</div>
+          <div class="nook-half-v__day-precip">{{ day.precipitation_chance }}%</div>
+          <img src="{{ day.icon_url }}" alt="{{ day.condition_text | escape }}">
+          <div class="nook-half-v__day-label">{{ day.day_label }}</div>
+        </div>
+      {% endfor %}
+    </section>
+  </div>
+{% else %}
+  <div class="nook-half-v__error">{{ error.message | default: "No se pudo cargar el clima." }}</div>
+{% endif %}

@@ -1,0 +1,68 @@
+name: Nook Weather
+strategy: polling
+refresh_interval: 15
+polling_verb: get
+polling_url: >-
+  ##{{ endpoint_base_url }}/server/weather.php?mode=##{{ location_mode }}&city=##{{ city | url_encode }}&country=##{{ country | url_encode }}&lat=##{{ lat }}&lon=##{{ lon }}&units=##{{ units }}
+no_screen_padding: 'yes'
+dark_mode: 'no'
+custom_fields:
+  - keyname: endpoint_base_url
+    field_type: url
+    name: Endpoint Base URL
+    description: URL base de tu LaraPaper o servidor PHP, sin slash final.
+    placeholder: https://weather.example.com
+    help_text: Ejemplo: https://mi-servidor.local o https://mi-dominio.com
+  - keyname: location_mode
+    field_type: select
+    name: Modo de ubicación
+    description: Elegí ciudad/país o coordenadas.
+    options:
+      - Ciudad: city
+      - Coordenadas: coords
+    default: city
+    conditional_validation:
+      - when: city
+        required:
+          - city
+          - country
+        hidden:
+          - lat
+          - lon
+      - when: coords
+        required:
+          - lat
+          - lon
+        hidden:
+          - city
+          - country
+  - keyname: city
+    field_type: string
+    name: Ciudad
+    description: Ej. Buenos Aires
+    optional: true
+  - keyname: country
+    field_type: string
+    name: País
+    description: Nombre o código ISO2, ej. Argentina o AR
+    optional: true
+  - keyname: lat
+    field_type: number
+    name: Latitud
+    description: Ej. -34.6037
+    step: 0.0001
+    optional: true
+  - keyname: lon
+    field_type: number
+    name: Longitud
+    description: Ej. -58.3816
+    step: 0.0001
+    optional: true
+  - keyname: units
+    field_type: select
+    name: Unidades
+    description: Elegí Celsius o Fahrenheit.
+    options:
+      - Celsius: c
+      - Fahrenheit: f
+    default: c

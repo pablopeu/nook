@@ -96,7 +96,8 @@ function renderCurrent(data) {
   heroIcon.src = data.hero.icon_url;
   heroIcon.alt = data.hero.condition_text;
 
-  document.getElementById("hero-description").textContent = heroDescriptionText(data.hero.condition_text);
+  document.getElementById("hero-description").textContent =
+    data.hero.condition_text_es || heroDescriptionText(data.hero.condition_text);
 }
 
 function renderHours(data) {

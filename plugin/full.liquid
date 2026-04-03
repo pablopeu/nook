@@ -1,0 +1,319 @@
+<style>
+  .nook-full {
+    width: 800px;
+    height: 480px;
+    border: 3px solid #000;
+    box-sizing: border-box;
+    background: #fff;
+    color: #000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  .nook-full * {
+    box-sizing: border-box;
+  }
+
+  .nook-full__top {
+    height: 39.6%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    border-bottom: 3px solid #000;
+    overflow: hidden;
+  }
+
+  .nook-full__cell {
+    height: 100%;
+  }
+
+  .nook-full__cell + .nook-full__cell {
+    border-left: 3px solid #000;
+  }
+
+  .nook-temp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 18px 12px;
+  }
+
+  .nook-temp__title,
+  .nook-hero__text,
+  .nook-metrics__label,
+  .nook-day__label {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 0;
+  }
+
+  .nook-temp__title {
+    margin-top: 10px;
+    font-size: 28px;
+    line-height: 1;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  .nook-temp__value {
+    margin-top: 12px;
+    font-size: 106px;
+    line-height: 0.74;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .nook-temp__value sup {
+    font-size: 0.62em;
+    vertical-align: top;
+  }
+
+  .nook-temp__range {
+    margin-top: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6%;
+    padding: 0 20px 10px;
+    transform: translateY(2px);
+  }
+
+  .nook-temp__range-item {
+    text-align: center;
+    font-size: 22px;
+    line-height: 1.02;
+    font-weight: 700;
+  }
+
+  .nook-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0 14px 16px;
+  }
+
+  .nook-hero img {
+    width: 154px;
+    height: 116px;
+    object-fit: contain;
+    margin-top: -6px;
+  }
+
+  .nook-hero__text {
+    margin-top: 0;
+    min-height: 1.05em;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .nook-metrics {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 22px;
+  }
+
+  .nook-metrics__row {
+    display: grid;
+    grid-template-columns: 34% 66%;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .nook-metrics__label {
+    font-size: 24px;
+    line-height: 1;
+    text-align: right;
+    font-weight: 400;
+  }
+
+  .nook-metrics__value {
+    font-size: 60px;
+    line-height: 0.84;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .nook-metrics__suffix {
+    font-size: 0.42em;
+    margin-left: 0.01em;
+  }
+
+  .nook-full__hours {
+    height: 22.6%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    border-bottom: 3px solid #000;
+  }
+
+  .nook-hour {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6%;
+    padding: 3% 2.2% 2%;
+  }
+
+  .nook-hour img {
+    width: 92%;
+    height: 66%;
+    object-fit: contain;
+  }
+
+  .nook-hour__label {
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .nook-full__days {
+    height: 37.8%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .nook-day {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    justify-items: center;
+    align-items: center;
+    padding: 3.2% 4.5% 1.6%;
+  }
+
+  .nook-day__temps {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+    line-height: 0.84;
+    font-weight: 700;
+  }
+
+  .nook-day__precip {
+    margin-top: 0;
+    width: 100%;
+    min-height: 0.96em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .nook-day img {
+    width: 92%;
+    max-height: 80%;
+    object-fit: contain;
+    align-self: center;
+    margin-top: -7%;
+  }
+
+  .nook-day__label {
+    margin-top: -18%;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .nook-day--muted {
+    opacity: 0.35;
+  }
+
+  .nook-error {
+    width: 800px;
+    height: 480px;
+    border: 3px solid #000;
+    box-sizing: border-box;
+    background: #fff;
+    color: #000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    text-align: center;
+    padding: 48px;
+  }
+
+  .nook-error__title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .nook-error__copy {
+    font-size: 22px;
+    line-height: 1.2;
+    max-width: 620px;
+  }
+</style>
+
+{% if ok %}
+  <div class="nook-full">
+    <section class="nook-full__top">
+      <div class="nook-full__cell nook-temp">
+        <div class="nook-temp__title">Temperatura</div>
+        <div class="nook-temp__value">{{ current.temperature }}<sup>°</sup></div>
+        <div class="nook-temp__range">
+          <div class="nook-temp__range-item">{{ current.min }}°</div>
+          <div class="nook-temp__range-item">{{ current.max }}°</div>
+        </div>
+      </div>
+      <div class="nook-full__cell nook-hero">
+        <img src="{{ hero.icon_url }}" alt="{{ hero.condition_text | escape }}">
+        <div class="nook-hero__text">{{ hero.condition_text_es | default: hero.condition_text }}</div>
+      </div>
+      <div class="nook-full__cell nook-metrics">
+        <div class="nook-metrics__row">
+          <div class="nook-metrics__label">Sensación<br>Térmica</div>
+          <div class="nook-metrics__value">{{ current.feels_like }}°</div>
+        </div>
+        <div class="nook-metrics__row">
+          <div class="nook-metrics__label">Humedad</div>
+          <div class="nook-metrics__value">{{ current.humidity }}<span class="nook-metrics__suffix">%</span></div>
+        </div>
+        <div class="nook-metrics__row">
+          <div class="nook-metrics__label">Presión</div>
+          <div class="nook-metrics__value">{{ current.pressure_hpa }}<span class="nook-metrics__suffix">hPa</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="nook-full__hours">
+      {% for hour in hours limit: 12 %}
+        <div class="nook-hour">
+          <img src="{{ hour.icon_url }}" alt="{{ hour.condition_text | escape }}">
+          <div class="nook-hour__label">{{ hour.time_label }}</div>
+        </div>
+      {% endfor %}
+    </section>
+
+    <section class="nook-full__days">
+      {% for day in days limit: 7 %}
+        <div class="nook-day{% unless day.available %} nook-day--muted{% endunless %}">
+          <div class="nook-day__temps">
+            <div>{{ day.min }}°</div>
+            <div>{{ day.max }}°</div>
+          </div>
+          <div class="nook-day__precip">{{ day.precipitation_chance }}%</div>
+          <img src="{{ day.icon_url }}" alt="{{ day.condition_text | escape }}">
+          <div class="nook-day__label">{{ day.day_label }}</div>
+        </div>
+      {% endfor %}
+    </section>
+  </div>
+{% else %}
+  <div class="nook-error">
+    <div class="nook-error__title">Sin datos del tiempo</div>
+    <div class="nook-error__copy">{{ error.message | default: "No se pudo cargar el clima." }}</div>
+  </div>
+{% endif %}

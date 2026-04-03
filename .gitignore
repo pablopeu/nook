@@ -1,2 +1,3 @@
 server/cache/
 server/.env.local
+dist/

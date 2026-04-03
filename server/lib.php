@@ -8,7 +8,7 @@ const FORECAST_DAYS = 7;
 const HOURLY_WINDOW_SIZE = 12;
 const METEOBLUE_FORECAST_URL = 'https://my.meteoblue.com/packages/basic-1h_basic-day_current';
 const METEOBLUE_SEARCH_URL = 'https://www.meteoblue.com/en/server/search/query3';
-const CACHE_SCHEMA_VERSION = 'meteoblue-v2';
+const CACHE_SCHEMA_VERSION = 'meteoblue-v3';
 
 function load_local_env(string $path): void
 {
@@ -475,16 +475,36 @@ function severity_for_group(string $group): int
     };
 }
 
+function spanish_condition_label(string $group, string $text): string
+{
+    return match ($group) {
+        'thunder_snow' => 'Nieve y tormenta',
+        'thunder_rain' => 'Tormentas',
+        'snow' => 'Nieve',
+        'mix' => 'Agua y nieve',
+        'rain' => str_contains(strtolower($text), 'heavy') ? 'Lluvias intensas' : 'Lluvias',
+        'sprinkle' => 'Lloviznas',
+        'fog' => 'Niebla',
+        'haze' => 'Bruma',
+        'cloudy' => 'Nublado',
+        'partly_cloudy' => 'Parcial nublado',
+        'clear' => 'Despejado',
+        default => 'Variable',
+    };
+}
+
 function icon_payload_from_meteoblue(int $pictocode, bool $isDay, bool $hourly, ?string $text = null): array
 {
     $group = meteoblue_icon_group($pictocode, $hourly);
+    $description = $text ?? meteoblue_pictocode_description($pictocode, $hourly);
 
     return [
         'code' => $pictocode,
         'group' => $group,
         'severity' => severity_for_group($group),
         'url' => icon_filename(icon_name_for_group($group, $isDay)),
-        'text' => $text ?? meteoblue_pictocode_description($pictocode, $hourly),
+        'text' => $description,
+        'text_es' => spanish_condition_label($group, $description),
     ];
 }
 
@@ -555,6 +575,7 @@ function build_hour_rows(array $source): array
             'pressure_hpa' => format_temperature((float) ($data['sealevelpressure'][$index] ?? 0)),
             'precipitation_chance' => (int) round((float) ($data['precipitation_probability'][$index] ?? 0)),
             'condition_text' => $icon['text'],
+            'condition_text_es' => $icon['text_es'],
             'condition_code' => $icon['code'],
             'icon_group' => $icon['group'],
             'icon_url' => $icon['url'],
@@ -596,6 +617,7 @@ function predominant_hour_icon(array $rows): array
         return [
             'icon_url' => icon_filename('wi-cloudy'),
             'condition_text' => 'Cloudy',
+            'condition_text_es' => 'Nublado',
             'icon_group' => 'cloudy',
             'severity' => 2,
         ];
@@ -632,6 +654,7 @@ function predominant_hour_icon(array $rows): array
     return is_array($winner) ? $winner['row'] : [
         'icon_url' => icon_filename('wi-cloudy'),
         'condition_text' => 'Cloudy',
+        'condition_text_es' => 'Nublado',
         'icon_group' => 'cloudy',
         'severity' => 2,
     ];
@@ -653,6 +676,7 @@ function build_hour_window(array $hourRows, string $currentTime): array
             'temperature' => $row['temperature'],
             'precipitation_chance' => $row['precipitation_chance'],
             'condition_text' => $row['condition_text'],
+            'condition_text_es' => $row['condition_text_es'],
             'condition_code' => $row['condition_code'],
             'icon_group' => $row['icon_group'],
             'icon_url' => $row['icon_url'],
@@ -689,6 +713,7 @@ function build_day_rows(array $hourRows, string $currentTime): array
                 'max' => null,
                 'precipitation_chance' => null,
                 'condition_text' => 'Forecast unavailable',
+                'condition_text_es' => 'Sin pronóstico',
                 'condition_code' => null,
                 'icon_group' => 'cloudy',
                 'icon_url' => icon_filename('wi-cloudy'),
@@ -716,6 +741,7 @@ function build_day_rows(array $hourRows, string $currentTime): array
             'max' => max(array_column($rows, 'temperature')),
             'precipitation_chance' => $precipitationChance,
             'condition_text' => $icon['condition_text'],
+            'condition_text_es' => spanish_condition_label($iconGroup, (string) $icon['condition_text']),
             'condition_code' => $icon['condition_code'] ?? null,
             'icon_group' => $iconGroup,
             'icon_url' => icon_filename(icon_name_for_group($iconGroup, true)),
@@ -784,6 +810,7 @@ function normalize_weather(array $source, array $request, array $location): arra
             'humidity' => (int) $currentHour['humidity'],
             'pressure_hpa' => (int) $currentHour['pressure_hpa'],
             'condition_text' => $currentIcon['text'],
+            'condition_text_es' => $currentIcon['text_es'],
             'condition_code' => $currentIcon['code'],
             'icon_group' => $currentIcon['group'],
             'icon_url' => $currentIcon['url'],
@@ -792,6 +819,7 @@ function normalize_weather(array $source, array $request, array $location): arra
         'hero' => [
             'icon_url' => (string) ($hero['icon_url'] ?? icon_filename('wi-cloudy')),
             'condition_text' => (string) ($hero['condition_text'] ?? 'Cloudy'),
+            'condition_text_es' => (string) ($hero['condition_text_es'] ?? 'Nublado'),
             'window_start' => $hours[0]['time'] ?? null,
             'window_end' => $hours[count($hours) - 1]['time'] ?? null,
         ],

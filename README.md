@@ -5,6 +5,8 @@ Estado actual:
 - `references/`: archivos originales reubicados para referencia visual y funcional
 - `mockup/`: HTML/CSS/JS del layout basado en `Plantilla.jpg`
 - `server/`: endpoint PHP que consulta Meteoblue y normaliza el JSON
+- `plugin/`: paquete privado TRMNL con `settings.yml` y plantillas Liquid
+- `scripts/`: utilidades de build, incluido el ZIP importable del plugin
 - `docs/`: plan de implementación
 
 ## Mockup
@@ -55,3 +57,31 @@ http://127.0.0.1:8080/weather.php?mode=coords&lat=-34.6037&lon=-58.3816&units=f
 Nota:
 
 - Meteoblue entrega 7 filas diarias y 169 horas. El endpoint usa la serie horaria para construir los 7 bloques inferiores desde hoy y las próximas 12 horas del bloque central.
+
+## Plugin TRMNL
+
+El paquete privado quedó en:
+
+- `plugin/settings.yml`
+- `plugin/full.liquid`
+- `plugin/half_horizontal.liquid`
+- `plugin/half_vertical.liquid`
+- `plugin/quadrant.liquid`
+
+Generar el ZIP importable:
+
+```bash
+python3 scripts/build_plugin_zip.py
+```
+
+Salida:
+
+```text
+dist/nook-weather-trmnl.zip
+```
+
+El campo `Endpoint Base URL` del plugin debe apuntar a la base pública de tu servidor, por ejemplo:
+
+```text
+http://192.168.68.130:8123
+```
