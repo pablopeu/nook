@@ -27,8 +27,8 @@ body {
 }
 
 .frame {
-  width: 780px;
-  height: 480px;
+  width: 800px;
+  height: 600px;
   background: var(--paper);
   border: var(--line);
   position: relative;
@@ -287,7 +287,7 @@ body {
   }
 
   .frame {
-    width: 780px;
-    height: 480px;
+    width: 800px;
+    height: 600px;
   }
 }

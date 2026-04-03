@@ -3,7 +3,7 @@
 Estado actual:
 
 - `references/`: archivos originales reubicados para referencia visual y funcional
-- `mockup/`: HTML/CSS/JS del layout basado en `Plantilla.jpg`
+- `mockup/`: base activa del layout, ahora preparada como variante `800x600` estirada para seguir ajustando
 - `server/`: endpoint PHP que consulta Meteoblue y normaliza el JSON
 - `plugin/`: paquete privado TRMNL con `settings.yml` y plantillas Liquid
 - `scripts/`: utilidades de build, incluido el ZIP importable del plugin
