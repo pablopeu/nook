@@ -7,6 +7,7 @@ Estado actual:
 - `server/`: endpoint PHP que consulta Meteoblue y normaliza el JSON
 - `plugin/`: paquete privado TRMNL con `settings.yml` y plantillas Liquid
 - `scripts/`: utilidades de build, incluido el ZIP importable del plugin
+- `versions/trmnl-og-780x480/`: snapshot reproducible de la versión estable actual
 - `docs/`: plan de implementación
 
 ## Mockup
