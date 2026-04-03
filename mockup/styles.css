@@ -27,7 +27,7 @@ body {
 }
 
 .frame {
-  width: 800px;
+  width: 780px;
   height: 480px;
   background: var(--paper);
   border: var(--line);
@@ -183,8 +183,8 @@ body {
 }
 
 .metric-value {
-  font-size: 60px;
-  line-height: 0.84;
+  font-size: 56px;
+  line-height: 0.8;
   font-family: inherit;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -287,7 +287,7 @@ body {
   }
 
   .frame {
-    width: 800px;
+    width: 780px;
     height: 480px;
   }
 }
