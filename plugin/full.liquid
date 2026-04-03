@@ -11,6 +11,80 @@
     overflow: hidden;
   }
 
+  .nook-full__device-status {
+    position: absolute;
+    top: 9px;
+    right: 11px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    z-index: 2;
+  }
+
+  .nook-full__device-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nook-full__wifi {
+    width: 18px;
+    height: 14px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .nook-full__wifi-bar {
+    display: block;
+    width: 4px;
+    border: 1.7px solid #000;
+    background: #fff;
+  }
+
+  .nook-full__wifi-bar--1 {
+    height: 5px;
+  }
+
+  .nook-full__wifi-bar--2 {
+    height: 9px;
+  }
+
+  .nook-full__wifi-bar--3 {
+    height: 13px;
+  }
+
+  .nook-full__wifi--1 .nook-full__wifi-bar--1,
+  .nook-full__wifi--2 .nook-full__wifi-bar--1,
+  .nook-full__wifi--2 .nook-full__wifi-bar--2,
+  .nook-full__wifi--3 .nook-full__wifi-bar {
+    background: #000;
+  }
+
+  .nook-full__battery {
+    display: flex;
+    align-items: center;
+  }
+
+  .nook-full__battery-body {
+    width: 25px;
+    height: 12px;
+    border: 1.8px solid #000;
+    padding: 1px;
+  }
+
+  .nook-full__battery-fill {
+    height: 100%;
+    background: #000;
+  }
+
+  .nook-full__battery-cap {
+    width: 3px;
+    height: 6px;
+    margin-left: 1px;
+    background: #000;
+  }
+
   .nook-full * {
     box-sizing: border-box;
   }
@@ -336,7 +410,26 @@
 
 {% if ok %}
   {% assign precip_chart_id = "precip-chart-" | append_random %}
+  {% assign wifi_strength = trmnl.device.wifi_strength | default: 0 %}
+  {% assign battery_percent = trmnl.device.percent_charged | default: 0 %}
   <div class="nook-full">
+    <div class="nook-full__device-status" aria-label="Estado del dispositivo">
+      <div class="nook-full__device-item" aria-hidden="true">
+        <div class="nook-full__wifi nook-full__wifi--{{ wifi_strength }}">
+          <span class="nook-full__wifi-bar nook-full__wifi-bar--1"></span>
+          <span class="nook-full__wifi-bar nook-full__wifi-bar--2"></span>
+          <span class="nook-full__wifi-bar nook-full__wifi-bar--3"></span>
+        </div>
+      </div>
+      <div class="nook-full__device-item" aria-hidden="true">
+        <div class="nook-full__battery">
+          <div class="nook-full__battery-body">
+            <div class="nook-full__battery-fill" style="width: {{ battery_percent }}%;"></div>
+          </div>
+          <div class="nook-full__battery-cap"></div>
+        </div>
+      </div>
+    </div>
     <section class="nook-full__top">
       <div class="nook-full__cell nook-temp">
         <div class="nook-temp__title">Temperatura</div>

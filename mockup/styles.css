@@ -35,6 +35,92 @@ body {
   overflow: hidden;
 }
 
+.screen {
+  position: relative;
+}
+
+.device-status {
+  position: absolute;
+  top: 9px;
+  right: 11px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  z-index: 2;
+}
+
+.device-status__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wifi-icon {
+  width: 18px;
+  height: 14px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.wifi-bar {
+  display: block;
+  width: 4px;
+  border: 1.7px solid #000;
+  background: transparent;
+}
+
+.wifi-bar--1 {
+  height: 5px;
+}
+
+.wifi-bar--2 {
+  height: 9px;
+}
+
+.wifi-bar--3 {
+  height: 13px;
+}
+
+.wifi-icon[data-strength="0"] .wifi-bar,
+.wifi-icon[data-strength="1"] .wifi-bar--2,
+.wifi-icon[data-strength="1"] .wifi-bar--3,
+.wifi-icon[data-strength="2"] .wifi-bar--3 {
+  background: #fff;
+}
+
+.wifi-icon[data-strength="1"] .wifi-bar--1,
+.wifi-icon[data-strength="2"] .wifi-bar--1,
+.wifi-icon[data-strength="2"] .wifi-bar--2,
+.wifi-icon[data-strength="3"] .wifi-bar {
+  background: #000;
+}
+
+.battery-icon {
+  display: flex;
+  align-items: center;
+}
+
+.battery-icon__body {
+  width: 25px;
+  height: 12px;
+  border: 1.8px solid #000;
+  padding: 1px;
+}
+
+.battery-icon__fill {
+  height: 100%;
+  width: 0;
+  background: #000;
+}
+
+.battery-icon__cap {
+  width: 3px;
+  height: 6px;
+  margin-left: 1px;
+  background: #000;
+}
+
 .screen,
 .status {
   width: 100%;

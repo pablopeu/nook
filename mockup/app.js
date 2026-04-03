@@ -14,6 +14,8 @@ const params = {
   lon: query.get("lon") || "-58.3816",
   units: query.get("units") || "c",
   demo: query.get("demo") === "1",
+  battery: query.get("battery") || "67",
+  wifi: query.get("wifi") || "2",
 };
 
 function endpointUrl() {
@@ -98,6 +100,14 @@ function renderCurrent(data) {
 
   document.getElementById("hero-description").textContent =
     data.hero.condition_text_es || heroDescriptionText(data.hero.condition_text);
+}
+
+function renderDeviceStatus() {
+  const batteryPercent = Math.max(0, Math.min(100, Number(params.battery) || 0));
+  const wifiStrength = Math.max(0, Math.min(3, Number(params.wifi) || 0));
+
+  document.getElementById("battery-fill").style.width = `${batteryPercent}%`;
+  document.getElementById("wifi-icon").dataset.strength = String(wifiStrength);
 }
 
 function renderHours(data) {
@@ -261,6 +271,7 @@ function renderPrecipitationChart(container, valuesRow, hoursRow, hours, values)
 loadData()
   .then((data) => {
     revealScreen();
+    renderDeviceStatus();
     renderCurrent(data);
     renderHours(data);
     renderDays(data);
