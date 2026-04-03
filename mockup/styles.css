@@ -92,11 +92,11 @@ body {
   font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   letter-spacing: 0;
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .current-temp {
-  margin-top: 12px;
+  margin-top: 7px;
   font-size: 106px;
   line-height: 0.74;
   font-family: inherit;
@@ -163,7 +163,7 @@ body {
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-  padding: 8px 22px;
+  padding: 5px 22px 11px;
 }
 
 .metric-row {
