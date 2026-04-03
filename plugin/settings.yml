@@ -12,7 +12,7 @@ custom_fields:
     name: Endpoint Base URL
     description: URL base de tu LaraPaper o servidor PHP, sin slash final.
     placeholder: https://weather.example.com
-    help_text: Ejemplo: https://mi-servidor.local o https://mi-dominio.com
+    help_text: "Ejemplo: https://mi-servidor.local o https://mi-dominio.com"
   - keyname: location_mode
     field_type: select
     name: Modo de ubicación
