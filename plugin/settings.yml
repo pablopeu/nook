@@ -4,9 +4,9 @@ refresh_interval: 15
 polling_verb: get
 polling_url: |-
   {% if location_mode == "coords" %}
-  ##{{ endpoint_base_url }}/server/weather.php?mode=coords&lat=##{{ lat }}&lon=##{{ lon }}&units=##{{ units }}
+  {{ endpoint_base_url }}/server/weather.php?mode=coords&lat={{ lat }}&lon={{ lon }}&units={{ units }}
   {% else %}
-  ##{{ endpoint_base_url }}/server/weather.php?mode=city&city=##{{ city | url_encode }}&country=##{{ country | url_encode }}&units=##{{ units }}
+  {{ endpoint_base_url }}/server/weather.php?mode=city&city={{ city | url_encode }}&country={{ country | url_encode }}&units={{ units }}
   {% endif %}
 no_screen_padding: 'yes'
 dark_mode: 'no'
