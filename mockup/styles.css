@@ -1,0 +1,298 @@
+:root {
+  color-scheme: light;
+  --ink: #000000;
+  --paper: #ffffff;
+  --line: 3px solid #000000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #d9d9d9;
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  font-kerning: normal;
+  font-feature-settings: "kern" 1;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.frame {
+  width: min(1280px, calc(100vw - 48px));
+  background: var(--paper);
+  border: var(--line);
+  aspect-ratio: 3553 / 2136;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen,
+.status {
+  width: 100%;
+  height: 100%;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  padding: 48px;
+}
+
+.status-title {
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 700;
+}
+
+.status-copy {
+  font-size: clamp(16px, 1.5vw, 22px);
+  max-width: 760px;
+}
+
+.top-band {
+  height: 39.6%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  border-bottom: var(--line);
+  overflow: hidden;
+}
+
+.cell {
+  height: 100%;
+}
+
+.cell + .cell {
+  box-shadow: inset 3px 0 0 #000000;
+}
+
+.temperature-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.8% 4% 2.8%;
+}
+
+.panel-title {
+  font-size: clamp(24px, 2.05vw, 56px);
+  line-height: 1;
+  align-self: center;
+  text-align: center;
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-top: 2.6%;
+}
+
+.current-temp {
+  margin-top: 14%;
+  font-size: clamp(86px, 11.6vw, 266px);
+  line-height: 0.76;
+  font-family: inherit;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.current-temp .degree {
+  font-size: 0.66em;
+  vertical-align: top;
+}
+
+.min-max-row {
+  margin-top: auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6%;
+  padding: 0 8% 10.5%;
+}
+
+.min-max-item {
+  text-align: center;
+}
+
+.min-max-value {
+  font-size: clamp(22px, 2vw, 48px);
+  font-weight: 700;
+  line-height: 1.02;
+  min-height: 1.1em;
+}
+
+.min-max-label {
+  margin-top: 6px;
+  font-size: clamp(26px, 2.08vw, 54px);
+  line-height: 1;
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.hero-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1% 1.6% 1.1%;
+}
+
+.hero-panel img {
+  width: 96%;
+  height: 78%;
+  object-fit: contain;
+  margin-top: -4%;
+}
+
+.hero-description {
+  margin-top: -3.5%;
+  min-height: 1.05em;
+  font-size: clamp(24px, 2.08vw, 52px);
+  line-height: 1;
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.metrics-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3% 3.6% 4.4% 3.4%;
+}
+
+.metric-row {
+  display: grid;
+  grid-template-columns: 34% 66%;
+  align-items: center;
+  gap: 5.4%;
+}
+
+.metric-label {
+  font-size: clamp(24px, 2.12vw, 52px);
+  line-height: 1.02;
+  text-align: right;
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.metric-value {
+  font-size: clamp(60px, 8.2vw, 182px);
+  line-height: 0.84;
+  font-family: inherit;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.metric-suffix {
+  font-size: 0.42em;
+  margin-left: 0.01em;
+}
+
+.hourly-band {
+  height: 22.6%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  border-bottom: var(--line);
+}
+
+.hour-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6%;
+  padding: 3% 2.2% 2%;
+}
+
+.hour-card img {
+  width: 92%;
+  height: 66%;
+  object-fit: contain;
+}
+
+.hour-label {
+  font-size: clamp(18px, 1.82vw, 44px);
+  line-height: 1;
+  font-weight: 700;
+}
+
+.daily-band {
+  height: 37.8%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day-card {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  justify-items: center;
+  align-items: center;
+  padding: 3.2% 4.5% 1.6%;
+}
+
+.day-minmax {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 700;
+  font-size: clamp(24px, 2.1vw, 50px);
+  line-height: 0.84;
+}
+
+.day-precip {
+  margin-top: 0;
+  font-size: clamp(22px, 1.92vw, 44px);
+  line-height: 1;
+  font-weight: 700;
+}
+
+.day-stat {
+  width: 100%;
+  text-align: center;
+  min-height: 0.96em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.day-card img {
+  width: 92%;
+  max-height: 80%;
+  object-fit: contain;
+  align-self: center;
+  margin-top: -7%;
+}
+
+.day-label {
+  font-size: clamp(24px, 1.98vw, 46px);
+  line-height: 1;
+  font-family: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  margin-top: -18%;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: 12px;
+  }
+
+  .frame {
+    width: calc(100vw - 24px);
+  }
+}

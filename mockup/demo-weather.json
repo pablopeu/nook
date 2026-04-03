@@ -1,0 +1,258 @@
+{
+  "ok": true,
+  "error": null,
+  "meta": {
+    "source": "demo",
+    "generated_at": "2026-04-03T00:00:00Z",
+    "cache_ttl_seconds": 600,
+    "units": "C",
+    "request": {
+      "mode": "city",
+      "units": "c",
+      "city": "Buenos Aires",
+      "country": "Argentina",
+      "query": "Buenos Aires, Argentina"
+    },
+    "location": {
+      "name": "Buenos Aires",
+      "region": "Buenos Aires",
+      "country": "Argentina",
+      "lat": -34.6037,
+      "lon": -58.3816,
+      "tz_id": "America/Argentina/Buenos_Aires",
+      "localtime": "2026-04-03 00:40"
+    }
+  },
+  "current": {
+    "temperature": 25,
+    "min": 18,
+    "max": 30,
+    "feels_like": 25,
+    "humidity": 55,
+    "pressure_hpa": 1020,
+    "condition_text": "Patchy rain nearby",
+    "condition_code": 1063,
+    "icon_group": "sprinkle",
+    "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-rain.svg",
+    "last_updated": "2026-04-03 00:40"
+  },
+  "hero": {
+    "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+    "condition_text": "Thunderstorm",
+    "window_start": "01:00",
+    "window_end": "12:00"
+  },
+  "hours": [
+    {
+      "time": "01:00",
+      "time_label": "1:00",
+      "temperature": 23,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "02:00",
+      "time_label": "2:00",
+      "temperature": 23,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "03:00",
+      "time_label": "3:00",
+      "temperature": 22,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "04:00",
+      "time_label": "4:00",
+      "temperature": 22,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "05:00",
+      "time_label": "5:00",
+      "temperature": 21,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "06:00",
+      "time_label": "6:00",
+      "temperature": 21,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "07:00",
+      "time_label": "7:00",
+      "temperature": 22,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "08:00",
+      "time_label": "8:00",
+      "temperature": 23,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "09:00",
+      "time_label": "9:00",
+      "temperature": 24,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "10:00",
+      "time_label": "10:00",
+      "temperature": 24,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "11:00",
+      "time_label": "11:00",
+      "temperature": 25,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    },
+    {
+      "time": "12:00",
+      "time_label": "12:00",
+      "temperature": 25,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg",
+      "severity": 9
+    }
+  ],
+  "days": [
+    {
+      "date": "2026-04-06",
+      "day_label": "Lun",
+      "min": 18,
+      "max": 30,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg"
+    },
+    {
+      "date": "2026-04-07",
+      "day_label": "Mar",
+      "min": 19,
+      "max": 30,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg"
+    },
+    {
+      "date": "2026-04-08",
+      "day_label": "Mie",
+      "min": 18,
+      "max": 29,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg"
+    },
+    {
+      "date": "2026-04-09",
+      "day_label": "Jue",
+      "min": 17,
+      "max": 28,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg"
+    },
+    {
+      "date": "2026-04-10",
+      "day_label": "Vie",
+      "min": 18,
+      "max": 29,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg"
+    },
+    {
+      "date": "2026-04-11",
+      "day_label": "Sab",
+      "min": 18,
+      "max": 31,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg"
+    },
+    {
+      "date": "2026-04-12",
+      "day_label": "Dom",
+      "min": 19,
+      "max": 32,
+      "precipitation_chance": 55,
+      "condition_text": "Thunderstorm",
+      "condition_code": 1276,
+      "icon_group": "thunder_rain",
+      "icon_url": "https://trmnl.com/images/plugins/weather/wi-day-thunderstorm.svg"
+    }
+  ]
+}

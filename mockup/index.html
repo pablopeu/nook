@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRMNL Weather Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page">
+    <section class="frame">
+      <div class="screen" id="screen" hidden>
+        <section class="top-band">
+          <div class="cell temperature-panel">
+            <div class="panel-title">Temperatura</div>
+            <div class="current-temp">
+              <span id="current-temperature">25</span><span class="degree">°</span>
+            </div>
+            <div class="min-max-row">
+              <div class="min-max-item">
+                <div class="min-max-value"><span id="current-min">18</span>°</div>
+                <div class="min-max-label">Min</div>
+              </div>
+              <div class="min-max-item">
+                <div class="min-max-value"><span id="current-max">30</span>°</div>
+                <div class="min-max-label">Max</div>
+              </div>
+            </div>
+          </div>
+          <div class="cell hero-panel">
+            <img id="hero-icon" alt="Weather icon">
+            <div class="hero-description" id="hero-description"></div>
+          </div>
+          <div class="cell metrics-panel">
+            <div class="metric-row">
+              <div class="metric-label">Sensación<br>Térmica</div>
+              <div class="metric-value"><span id="feels-like">25</span>°</div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label">Humedad</div>
+              <div class="metric-value"><span id="humidity">55</span><span class="metric-suffix">%</span></div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label">Presión</div>
+              <div class="metric-value"><span id="pressure">1020</span><span class="metric-suffix">hPa</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="hourly-band" id="hourly-band"></section>
+        <section class="daily-band" id="daily-band"></section>
+      </div>
+
+      <section class="status" id="status">
+        <div class="status-title">Cargando mockup...</div>
+        <div class="status-copy">Si el endpoint falla, se mostraran los datos demo del layout.</div>
+      </section>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
