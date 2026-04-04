@@ -28,8 +28,8 @@
   }
 
   .nook-full__wifi {
-    width: 18px;
-    height: 14px;
+    width: 23px;
+    height: 18px;
     display: flex;
     align-items: flex-end;
     gap: 2px;
@@ -37,21 +37,21 @@
 
   .nook-full__wifi-bar {
     display: block;
-    width: 4px;
+    width: 5px;
     border: 1.7px solid #000;
     background: #fff;
   }
 
   .nook-full__wifi-bar--1 {
-    height: 5px;
+    height: 6px;
   }
 
   .nook-full__wifi-bar--2 {
-    height: 9px;
+    height: 11px;
   }
 
   .nook-full__wifi-bar--3 {
-    height: 13px;
+    height: 16px;
   }
 
   .nook-full__wifi--1 .nook-full__wifi-bar--1,
@@ -62,27 +62,15 @@
   }
 
   .nook-full__battery {
-    display: flex;
-    align-items: center;
-  }
-
-  .nook-full__battery-body {
-    width: 25px;
+    width: 24px;
     height: 12px;
-    border: 1.8px solid #000;
-    padding: 1px;
+    display: block;
   }
 
-  .nook-full__battery-fill {
+  .nook-full__battery svg {
+    width: 100%;
     height: 100%;
-    background: #000;
-  }
-
-  .nook-full__battery-cap {
-    width: 3px;
-    height: 6px;
-    margin-left: 1px;
-    background: #000;
+    display: block;
   }
 
   .nook-full * {
@@ -412,6 +400,16 @@
   {% assign precip_chart_id = "precip-chart-" | append_random %}
   {% assign wifi_strength = trmnl.device.wifi_strength | default: 0 %}
   {% assign battery_percent = trmnl.device.percent_charged | default: 0 %}
+  {% assign battery_level = 0 %}
+  {% if battery_percent >= 75 %}
+    {% assign battery_level = 4 %}
+  {% elsif battery_percent >= 50 %}
+    {% assign battery_level = 3 %}
+  {% elsif battery_percent >= 25 %}
+    {% assign battery_level = 2 %}
+  {% elsif battery_percent > 0 %}
+    {% assign battery_level = 1 %}
+  {% endif %}
   <div class="nook-full">
     <div class="nook-full__device-status" aria-label="Estado del dispositivo">
       <div class="nook-full__device-item" aria-hidden="true">
@@ -423,10 +421,42 @@
       </div>
       <div class="nook-full__device-item" aria-hidden="true">
         <div class="nook-full__battery">
-          <div class="nook-full__battery-body">
-            <div class="nook-full__battery-fill" style="width: {{ battery_percent }}%;"></div>
-          </div>
-          <div class="nook-full__battery-cap"></div>
+          {% if battery_level == 0 %}
+            <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"></rect>
+              <rect x="28" y="4" width="3" height="6" fill="#000"></rect>
+            </svg>
+          {% elsif battery_level == 1 %}
+            <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"></rect>
+              <rect x="4" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="28" y="4" width="3" height="6" fill="#000"></rect>
+            </svg>
+          {% elsif battery_level == 2 %}
+            <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"></rect>
+              <rect x="4" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="11" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="28" y="4" width="3" height="6" fill="#000"></rect>
+            </svg>
+          {% elsif battery_level == 3 %}
+            <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"></rect>
+              <rect x="4" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="10" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="16" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="28" y="4" width="3" height="6" fill="#000"></rect>
+            </svg>
+          {% else %}
+            <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"></rect>
+              <rect x="3" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="8" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="13" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="18" y="3" width="3" height="8" fill="#000"></rect>
+              <rect x="28" y="4" width="3" height="6" fill="#000"></rect>
+            </svg>
+          {% endif %}
         </div>
       </div>
     </div>

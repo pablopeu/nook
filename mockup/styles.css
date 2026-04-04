@@ -56,8 +56,8 @@ body {
 }
 
 .wifi-icon {
-  width: 18px;
-  height: 14px;
+  width: 23px;
+  height: 18px;
   display: flex;
   align-items: flex-end;
   gap: 2px;
@@ -65,21 +65,21 @@ body {
 
 .wifi-bar {
   display: block;
-  width: 4px;
+  width: 5px;
   border: 1.7px solid #000;
   background: transparent;
 }
 
 .wifi-bar--1 {
-  height: 5px;
+  height: 6px;
 }
 
 .wifi-bar--2 {
-  height: 9px;
+  height: 11px;
 }
 
 .wifi-bar--3 {
-  height: 13px;
+  height: 16px;
 }
 
 .wifi-icon[data-strength="0"] .wifi-bar,
@@ -97,28 +97,15 @@ body {
 }
 
 .battery-icon {
-  display: flex;
-  align-items: center;
-}
-
-.battery-icon__body {
-  width: 25px;
+  width: 24px;
   height: 12px;
-  border: 1.8px solid #000;
-  padding: 1px;
+  display: block;
 }
 
-.battery-icon__fill {
+.battery-icon svg {
+  width: 100%;
   height: 100%;
-  width: 0;
-  background: #000;
-}
-
-.battery-icon__cap {
-  width: 3px;
-  height: 6px;
-  margin-left: 1px;
-  background: #000;
+  display: block;
 }
 
 .screen,
