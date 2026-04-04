@@ -5,6 +5,7 @@ Estado actual:
 - `references/`: archivos originales reubicados para referencia visual y funcional
 - `mockup/`: base activa del layout, ahora preparada como variante `800x600` estirada para seguir ajustando
 - `server/`: endpoint PHP que consulta Meteoblue y normaliza el JSON
+- `workers/nook-weather-worker/`: port del endpoint a Cloudflare Workers
 - `plugin/`: paquete privado TRMNL con `settings.yml` y plantillas Liquid
 - `scripts/`: utilidades de build, incluido el ZIP importable del plugin
 - `versions/trmnl-og-780x480/`: snapshot reproducible de la versión estable actual
@@ -59,6 +60,24 @@ Nota:
 
 - Meteoblue entrega 7 filas diarias y 169 horas. El endpoint usa la serie horaria para construir los 7 bloques inferiores desde hoy y las próximas 12 horas del bloque central.
 
+## Cloudflare Workers
+
+El port del endpoint a Workers quedó en:
+
+- `workers/nook-weather-worker/package.json`
+- `workers/nook-weather-worker/wrangler.jsonc`
+- `workers/nook-weather-worker/src/index.js`
+- `workers/nook-weather-worker/README.md`
+
+Rutas soportadas por el Worker:
+
+- `/`
+- `/weather`
+- `/weather.php`
+- `/server/weather.php`
+
+Eso permite reutilizar el `polling_url` actual del plugin.
+
 ## Plugin TRMNL
 
 El paquete privado quedó en:
@@ -85,4 +104,10 @@ El campo `Endpoint Base URL` del plugin debe apuntar a la base pública de tu se
 
 ```text
 http://192.168.68.130:8123
+```
+
+Si usás Cloudflare Workers, el valor pasa a ser la base pública del Worker:
+
+```text
+https://nook-weather-worker.<tu-subdominio>.workers.dev
 ```

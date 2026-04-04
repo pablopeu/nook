@@ -1,3 +1,6 @@
 server/cache/
 server/.env.local
 dist/
+workers/**/.dev.vars
+workers/**/.wrangler/
+workers/**/node_modules/

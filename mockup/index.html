@@ -13,6 +13,18 @@
   <main class="page">
     <section class="frame">
       <div class="screen" id="screen" hidden>
+        <div class="device-status" id="device-status" aria-label="Estado del dispositivo">
+          <div class="device-status__item device-status__item--wifi" title="Wi-Fi">
+            <div class="wifi-icon" id="wifi-icon">
+              <span class="wifi-bar wifi-bar--1"></span>
+              <span class="wifi-bar wifi-bar--2"></span>
+              <span class="wifi-bar wifi-bar--3"></span>
+            </div>
+          </div>
+          <div class="device-status__item device-status__item--battery" title="Batería">
+            <div class="battery-icon" id="battery-icon"></div>
+          </div>
+        </div>
         <section class="top-band">
           <div class="cell temperature-panel">
             <div class="panel-title">Temperatura</div>

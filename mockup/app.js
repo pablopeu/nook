@@ -14,6 +14,8 @@ const params = {
   lon: query.get("lon") || "-58.3816",
   units: query.get("units") || "c",
   demo: query.get("demo") === "1",
+  battery: query.get("battery") || "67",
+  wifi: query.get("wifi") || "2",
 };
 
 function endpointUrl() {
@@ -98,6 +100,66 @@ function renderCurrent(data) {
 
   document.getElementById("hero-description").textContent =
     data.hero.condition_text_es || heroDescriptionText(data.hero.condition_text);
+}
+
+function batterySvg(level) {
+  const variants = {
+    0: `
+      <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+        <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"/>
+        <rect x="28" y="4" width="3" height="6" fill="#000"/>
+      </svg>
+    `,
+    1: `
+      <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+        <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"/>
+        <rect x="4" y="3" width="3" height="8" fill="#000"/>
+        <rect x="28" y="4" width="3" height="6" fill="#000"/>
+      </svg>
+    `,
+    2: `
+      <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+        <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"/>
+        <rect x="4" y="3" width="3" height="8" fill="#000"/>
+        <rect x="11" y="3" width="3" height="8" fill="#000"/>
+        <rect x="28" y="4" width="3" height="6" fill="#000"/>
+      </svg>
+    `,
+    3: `
+      <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+        <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"/>
+        <rect x="4" y="3" width="3" height="8" fill="#000"/>
+        <rect x="10" y="3" width="3" height="8" fill="#000"/>
+        <rect x="16" y="3" width="3" height="8" fill="#000"/>
+        <rect x="28" y="4" width="3" height="6" fill="#000"/>
+      </svg>
+    `,
+    4: `
+      <svg viewBox="0 0 31 14" aria-hidden="true" focusable="false">
+        <rect x="1" y="1" width="26" height="12" fill="none" stroke="#000" stroke-width="2"/>
+        <rect x="3" y="3" width="3" height="8" fill="#000"/>
+        <rect x="8" y="3" width="3" height="8" fill="#000"/>
+        <rect x="13" y="3" width="3" height="8" fill="#000"/>
+        <rect x="18" y="3" width="3" height="8" fill="#000"/>
+        <rect x="28" y="4" width="3" height="6" fill="#000"/>
+      </svg>
+    `,
+  };
+
+  return variants[level] || variants[0];
+}
+
+function renderDeviceStatus() {
+  const batteryPercent = Math.max(0, Math.min(100, Number(params.battery) || 0));
+  const wifiStrength = Math.max(0, Math.min(3, Number(params.wifi) || 0));
+  const batteryLevel =
+    batteryPercent >= 75 ? 4 :
+    batteryPercent >= 50 ? 3 :
+    batteryPercent >= 25 ? 2 :
+    batteryPercent > 0 ? 1 : 0;
+
+  document.getElementById("wifi-icon").dataset.strength = String(wifiStrength);
+  document.getElementById("battery-icon").innerHTML = batterySvg(batteryLevel);
 }
 
 function renderHours(data) {
@@ -261,6 +323,7 @@ function renderPrecipitationChart(container, valuesRow, hoursRow, hours, values)
 loadData()
   .then((data) => {
     revealScreen();
+    renderDeviceStatus();
     renderCurrent(data);
     renderHours(data);
     renderDays(data);
